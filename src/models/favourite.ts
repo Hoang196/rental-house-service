@@ -1,24 +1,23 @@
 import { model, Model, Schema, Document } from 'mongoose';
 import { User } from './user';
+import { House } from './house';
 
-export const groupSchema = new Schema(
+export const favouriteSchema = new Schema(
   {
-    admin: { type: Schema.Types.ObjectId, require: true, ref: 'User' },
-    name: { type: String, required: true },
-    description: { type: String, required: true },
+    user: { type: Schema.Types.ObjectId, require: true, ref: 'User' },
+    house: { type: Schema.Types.ObjectId, require: true, ref: 'House' },
     active: { type: Boolean, default: true },
   },
   {
     timestamps: true,
   }
 );
-export interface Group extends Document {
-  admin: User;
-  name: string;
-  description: string;
+export interface Favourite extends Document {
+  user: User;
+  house: House;
   active?: boolean;
 }
 
-const GroupModel: Model<Group> = model<Group>('favourite', groupSchema);
+const FavouriteModel: Model<Favourite> = model<Favourite>('favourite', favouriteSchema);
 
-export default GroupModel;
+export default FavouriteModel;

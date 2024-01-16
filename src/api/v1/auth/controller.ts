@@ -3,14 +3,14 @@ import RequestWithUser from 'utils/rest/request';
 import fmt from 'utils/formatter';
 import * as service from './service';
 
-const checkEmail = async (request: RequestWithUser, response: Response, next: NextFunction) => {
-  const data = await service.checkEmail(request.body);
+const login = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+  const data = await service.login(request.body);
   response.status(200);
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-const login = async (request: RequestWithUser, response: Response, next: NextFunction) => {
-  const data = await service.login(request.body);
+const register = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+  const data = await service.register(request.body);
   response.status(200);
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
@@ -27,10 +27,4 @@ const changePassword = async (request: RequestWithUser, response: Response, next
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-const forgetPassword = async (request: RequestWithUser, response: Response, next: NextFunction) => {
-  const data = await service.forgetPassword(request.body);
-  response.status(200);
-  response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
-};
-
-export { checkEmail, login, refresh, changePassword, forgetPassword };
+export { login, register, refresh, changePassword };

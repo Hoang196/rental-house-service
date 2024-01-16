@@ -1,22 +1,26 @@
 import { model, Model, Schema, Document } from 'mongoose';
-import { Group } from './favourite';
+import { User } from './user';
 
-export const examSchema = new Schema(
+export const chatSchema = new Schema(
   {
-    group: { type: Schema.Types.ObjectId, require: true, ref: 'Group' },
-    name: { type: String, required: true },
+    userSend: { type: Schema.Types.ObjectId, require: true, ref: 'User' },
+    userReceive: { type: Schema.Types.ObjectId, require: true, ref: 'User' },
+    content: { type: String, required: true },
+    type: { type: String, required: true },
     active: { type: Boolean, default: true },
   },
   {
     timestamps: true,
   }
 );
-export interface Exam extends Document {
-  group: Group;
-  name: string;
+export interface Chat extends Document {
+  userSend: User;
+  userReceive: User;
+  content: string;
+  type: string;
   active?: boolean;
 }
 
-const ExamModel: Model<Exam> = model<Exam>('chat', examSchema);
+const ChatModel: Model<Chat> = model<Chat>('chat', chatSchema);
 
-export default ExamModel;
+export default ChatModel;

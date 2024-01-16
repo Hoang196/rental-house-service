@@ -10,6 +10,7 @@ const getCategories = async (query: any) => {
   if (search) {
     queryParams.$or = [{ name: { $regex: search, $options: 'i' } }];
   }
+
   const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
   const limit = page_size || DEFAULT_PAGING.page_size;
 
@@ -28,9 +29,11 @@ const getCategories = async (query: any) => {
 const createCategory = async (cat: Category) => {
   const { name } = cat;
   const checkExistence = await CategoryModel.findOne({ name: name, active: true });
+
   if (checkExistence) {
     throw new UserExisted();
   }
+
   const result = await CategoryModel.create(cat);
   return result;
 };

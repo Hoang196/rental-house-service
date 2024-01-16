@@ -15,12 +15,6 @@ const getUsers = async (request: RequestWithUser, response: Response, next: Next
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-const createUser = async (request: RequestWithUser, response: Response, next: NextFunction) => {
-  const data = await service.createUser(request.body);
-  response.status(200);
-  response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
-};
-
 const updateUser = async (request: RequestWithUser, response: Response, next: NextFunction) => {
   const data = await service.updateUser(request);
   response.status(200);
@@ -33,4 +27,4 @@ const deleteUser = async (request: RequestWithUser, response: Response, next: Ne
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-export { getUser, getUsers, createUser, updateUser, deleteUser };
+export { getUser, getUsers, updateUser, deleteUser };

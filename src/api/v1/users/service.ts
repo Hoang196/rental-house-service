@@ -1,19 +1,16 @@
-import { UserExisted, UserNotFound } from 'exceptions';
+import { UserNotFound } from 'exceptions';
 import { PostModel, UserModel } from 'models';
-import { User } from 'models/user';
-import { encrypt } from 'utils/aes';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getUser = async (params: any) => {
-  try {
-    const { id } = params;
-    if (id) {
-      const data = await UserModel.findOne({ _id: id, active: true });
-      return data;
-    }
-  } catch (error) {
-    throw new UserNotFound();
+  const { id } = params;
+
+  if (id) {
+    const data = await UserModel.findOne({ _id: id, active: true });
+    return data;
   }
+
+  throw new UserNotFound();
 };
 
 const getUsers = async (query: any) => {
@@ -21,11 +18,11 @@ const getUsers = async (query: any) => {
   const queryParams: any = {};
 
   if (search) {
-    queryParams.$or = [{ username: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }];
+    queryParams.$or = [{ username: { $regex: search, $options: 'i' } }, { phone: { $regex: search, $options: 'i' } }];
   }
+
   const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
   const limit = page_size || DEFAULT_PAGING.page_size;
-
   const [count, users] = await Promise.all([
     UserModel.count(queryParams),
     UserModel.find(queryParams).skip(skip).limit(limit),
@@ -36,21 +33,6 @@ const getUsers = async (query: any) => {
     skip,
     data: users,
   };
-};
-
-const createUser = async (user: User) => {
-  const { phone, password } = user;
-  const checkEmail = await UserModel.findOne({ phone: phone, active: true });
-  if (checkEmail) {
-    throw new UserExisted();
-  }
-  const newPassword = encrypt(password);
-  const newUser = {
-    ...user,
-    password: newPassword,
-  };
-  const result = await UserModel.create(newUser);
-  return result;
 };
 
 const updateUser = async (request: any) => {
@@ -68,4 +50,4 @@ const deleteUser = async (request: any) => {
   return user;
 };
 
-export { getUser, getUsers, createUser, updateUser, deleteUser };
+export { getUser, getUsers, updateUser, deleteUser };

@@ -1,5 +1,5 @@
 import { PostModel, UserModel } from 'models';
-import { Post } from 'models/post';
+import { House } from 'models/house';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getPostsByStatus = async (query: any) => {
@@ -36,8 +36,8 @@ const getPostsByUserId = async (request: any) => {
   const { page, page_size } = request.query;
   const queryParams: any = { user: id, status: 'ACCEPTED', active: true };
 
-  const skip = (page - 1) * DEFAULT_PAGING.page_size_post || 0;
-  const limit = page_size || DEFAULT_PAGING.page_size_post;
+  const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
+  const limit = page_size || DEFAULT_PAGING.page_size;
 
   const [count, listPost] = await Promise.all([
     PostModel.count(queryParams),
@@ -68,8 +68,8 @@ const getPosts = async (request: any) => {
   if (search) {
     queryParams.$or = [{ title: { $regex: search, $options: 'i' } }, { content: { $regex: search, $options: 'i' } }];
   }
-  const skip = (page - 1) * DEFAULT_PAGING.page_size_post || 0;
-  const limit = page_size || DEFAULT_PAGING.page_size_post;
+  const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
+  const limit = page_size || DEFAULT_PAGING.page_size;
 
   const [count, listPost] = await Promise.all([
     PostModel.count(queryParams),
@@ -87,7 +87,7 @@ const getPosts = async (request: any) => {
   };
 };
 
-const createPost = async (post: Post) => {
+const createPost = async (post: House) => {
   const result = await PostModel.create(post);
   return result;
 };

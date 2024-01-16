@@ -1,16 +1,15 @@
 const APP_CONSTANTS = {
-  apiPrefix: '/code-practise',
+  apiPrefix: '/rental-house',
   params: 'params',
   query: 'query',
   body: 'body',
   file: 'file',
-  service: 'code-practise-service',
+  service: 'retal-house-service',
 };
 
 const DEFAULT_PAGING = {
   page: 1,
-  page_size: 500,
-  page_size_post: 10,
+  page_size: 10,
 };
 
 export { APP_CONSTANTS, DEFAULT_PAGING };

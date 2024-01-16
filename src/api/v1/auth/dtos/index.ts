@@ -1,13 +1,25 @@
-import { IsDefined, IsString } from 'class-validator';
+import { IsDefined, IsOptional, IsString } from 'class-validator';
 
 export class AuthDto {
   @IsDefined()
   @IsString()
-  public email: string;
+  public phone: string;
 
   @IsDefined()
   @IsString()
   public password: string;
+
+  @IsOptional()
+  @IsString()
+  public username?: string;
+
+  @IsOptional()
+  @IsString()
+  public address?: string;
+
+  @IsOptional()
+  @IsString()
+  public avatar?: string;
 }
 
 export class RefreshDto {
@@ -28,10 +40,4 @@ export class ChangePasswordDto {
   @IsDefined()
   @IsString()
   public newPassword: string;
-}
-
-export class ForgetPasswordDto {
-  @IsDefined()
-  @IsString()
-  public email: string;
 }
