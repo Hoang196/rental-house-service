@@ -4,8 +4,8 @@ import { House } from './house';
 
 export const favouriteSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, require: true, ref: 'User' },
-    house: { type: Schema.Types.ObjectId, require: true, ref: 'House' },
+    user: { type: Schema.Types.ObjectId, require: true, ref: 'User', index: true },
+    house: { type: Schema.Types.ObjectId, require: true, ref: 'House', index: true },
     active: { type: Boolean, default: true },
   },
   {

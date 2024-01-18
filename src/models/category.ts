@@ -2,7 +2,7 @@ import { model, Model, Schema, Document } from 'mongoose';
 
 export const categorySchema = new Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, required: true, index: true },
     active: { type: Boolean, default: true },
   },
   {

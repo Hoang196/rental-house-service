@@ -5,7 +5,7 @@ import { CreateFavouriteDto } from './dtos';
 
 const router = Router();
 
-router.get('/', authMiddleware, asyncRouteHandler(controller.getFavourites));
+router.get('/:id', authMiddleware, asyncRouteHandler(controller.getFavourites));
 router.post(
   '/',
   authMiddleware,

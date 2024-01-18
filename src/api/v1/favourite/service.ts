@@ -3,9 +3,12 @@ import { FavouriteModel } from 'models';
 import { Favourite } from 'models/favourite';
 import { DEFAULT_PAGING } from 'utils/constants';
 
-const getFavourites = async (query: any) => {
-  const { page, page_size, search } = query;
-  const queryParams: any = {};
+const getFavourites = async (request: any) => {
+  const { page, page_size, search } = request.query;
+  const { id } = request.params;
+  const queryParams: any = {
+    user: id,
+  };
 
   if (search) {
     queryParams.$or = [{ name: { $regex: search, $options: 'i' } }];

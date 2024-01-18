@@ -4,7 +4,7 @@ import fmt from 'utils/formatter';
 import * as service from './service';
 
 const getFavourites = async (request: RequestWithUser, response: Response, next: NextFunction) => {
-  const data = await service.getFavourites(request.query);
+  const data = await service.getFavourites(request);
   response.status(200);
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };

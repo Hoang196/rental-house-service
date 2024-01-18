@@ -4,16 +4,16 @@ import { Category } from './category';
 
 export const houseSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, require: true, ref: 'User' },
-    category: { type: Schema.Types.ObjectId, require: true, ref: 'Category' },
+    user: { type: Schema.Types.ObjectId, require: true, ref: 'User', index: true },
+    category: { type: Schema.Types.ObjectId, require: true, ref: 'Category', index: true },
     title: { type: String, require: true },
     description: { type: String, required: true },
     image: { type: String, required: true },
-    address: { type: String, required: true },
-    square: { type: String, required: true },
-    money: { type: Object, required: true },
+    address: { type: String, required: true, index: true },
+    square: { type: Number, required: true, index: true },
+    money: { type: Object, required: true, index: true },
     contact: { type: String, required: true },
-    type: { type: String, required: true },
+    type: { type: String, required: true, index: true },
     status: { type: String, default: 'PENDING' },
     active: { type: Boolean, default: true },
   },
@@ -28,7 +28,7 @@ export interface House extends Document {
   description: string;
   image: string;
   address: string;
-  square: string;
+  square: number;
   money: Object;
   contact: string;
   type: string;

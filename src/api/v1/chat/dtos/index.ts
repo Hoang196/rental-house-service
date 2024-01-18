@@ -1,13 +1,21 @@
 import { IsDefined, IsString, IsBoolean, IsOptional } from 'class-validator';
 
-export class CreateFavouriteDto {
+export class CreateChatDto {
   @IsDefined()
   @IsString()
-  public user: string;
+  public userSend: string;
 
   @IsDefined()
   @IsString()
-  public house: string;
+  public userReceive: string;
+
+  @IsDefined()
+  @IsString()
+  public content: string;
+
+  @IsDefined()
+  @IsString()
+  public type: string;
 
   @IsOptional()
   @IsBoolean()

@@ -1,5 +1,5 @@
 import { UserNotFound } from 'exceptions';
-import { PostModel, UserModel } from 'models';
+import { HouseModel, UserModel } from 'models';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getUser = async (params: any) => {
@@ -46,7 +46,7 @@ const deleteUser = async (request: any) => {
   const { id } = request.params;
   const { active } = request.body;
   const user = await UserModel.findOneAndUpdate({ _id: id }, { active: active });
-  await Promise.all([PostModel.updateMany({ user: id }, { active: active })]);
+  await Promise.all([HouseModel.updateMany({ user: id }, { active: active })]);
   return user;
 };
 

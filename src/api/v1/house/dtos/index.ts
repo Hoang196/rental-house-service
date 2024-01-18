@@ -1,10 +1,13 @@
 import { IsDefined, IsString, IsBoolean, IsOptional } from 'class-validator';
-import { User } from 'models/user';
 
-export class CreatePostDto {
+export class CreateHouseDto {
   @IsDefined()
   @IsString()
-  public user: User;
+  public user: string;
+
+  @IsDefined()
+  @IsString()
+  public category: string;
 
   @IsDefined()
   @IsString()
@@ -12,7 +15,31 @@ export class CreatePostDto {
 
   @IsDefined()
   @IsString()
-  public content: string;
+  public description: string;
+
+  @IsDefined()
+  @IsString()
+  public address: string;
+
+  @IsDefined()
+  @IsString()
+  public square: number;
+
+  @IsDefined()
+  @IsString()
+  public money: Object;
+
+  @IsDefined()
+  @IsString()
+  public contact: string;
+
+  @IsDefined()
+  @IsString()
+  public type: string;
+
+  @IsOptional()
+  @IsString()
+  public status?: string;
 
   @IsOptional()
   @IsBoolean()
