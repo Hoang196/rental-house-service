@@ -39,6 +39,10 @@ export class CreateHouseDto {
 
   @IsOptional()
   @IsString()
+  public like?: string;
+
+  @IsOptional()
+  @IsString()
   public status?: string;
 
   @IsOptional()

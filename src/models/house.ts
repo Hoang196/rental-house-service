@@ -14,6 +14,7 @@ export const houseSchema = new Schema(
     money: { type: Object, required: true, index: true },
     contact: { type: String, required: true },
     type: { type: String, required: true, index: true },
+    like: { type: Number, default: 0 },
     status: { type: String, default: 'PENDING' },
     active: { type: Boolean, default: true },
   },
@@ -32,6 +33,7 @@ export interface House extends Document {
   money: Object;
   contact: string;
   type: string;
+  like?: number;
   status?: string;
   active?: boolean;
 }

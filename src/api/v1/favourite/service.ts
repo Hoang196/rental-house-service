@@ -1,5 +1,5 @@
 import { UserExisted } from 'exceptions';
-import { FavouriteModel } from 'models';
+import { FavouriteModel, HouseModel } from 'models';
 import { Favourite } from 'models/favourite';
 import { DEFAULT_PAGING } from 'utils/constants';
 
@@ -37,6 +37,8 @@ const createFavourite = async (fa: Favourite) => {
     throw new UserExisted();
   }
 
+  const houseDetail = await HouseModel.findOne({ id: house });
+  await HouseModel.findOneAndUpdate({ _id: house }, { like: houseDetail.like + 1 });
   const result = await FavouriteModel.create(fa);
   return result;
 };
@@ -49,9 +51,11 @@ const updateFavourite = async (request: any) => {
 };
 
 const deleteFavourite = async (request: any) => {
-  const { id } = request.params;
-  const { active } = request.body;
-  const favourite = await FavouriteModel.findOneAndUpdate({ _id: id }, { active: active });
+  const { user, house, active } = request.body;
+  const favouriteDetail = await FavouriteModel.findOne({ user, house, active: true });
+  const houseDetail = await HouseModel.findOne({ id: house });
+  await HouseModel.findOneAndUpdate({ _id: house }, { like: houseDetail.like - 1 });
+  const favourite = await FavouriteModel.findOneAndUpdate({ _id: favouriteDetail.id }, { active: active });
   return favourite;
 };
 

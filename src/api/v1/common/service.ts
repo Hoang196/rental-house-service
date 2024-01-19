@@ -41,4 +41,22 @@ const getDataSearch = async (request: any) => {
   };
 };
 
-export { getDataSearch };
+const getTopFavourite = async (request: any) => {
+  const { page, page_size } = request.query;
+
+  const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
+  const limit = page_size || DEFAULT_PAGING.page_size;
+
+  const [count, listHouses] = await Promise.all([
+    HouseModel.count(),
+    HouseModel.find().sort({ like: -1 }).skip(skip).limit(limit),
+  ]);
+
+  return {
+    total: count,
+    skip,
+    data: listHouses,
+  };
+};
+
+export { getDataSearch, getTopFavourite };

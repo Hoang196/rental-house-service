@@ -9,4 +9,10 @@ const getDataSearch = async (request: RequestWithUser, response: Response, next:
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-export { getDataSearch };
+const getTopFavourite = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+  const data = await service.getTopFavourite(request);
+  response.status(200);
+  response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
+};
+
+export { getDataSearch, getTopFavourite };
