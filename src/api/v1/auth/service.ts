@@ -5,6 +5,7 @@ import { AuthDto, ChangePasswordDto, RefreshDto } from './dtos';
 import { UserNotFound, ForbiddenException, UserNotAuthorizedException, UserExisted } from 'exceptions';
 import { decrypt, encrypt } from 'utils/aes';
 import { User } from 'models/user';
+import { DEFAULT_EXPIRE_TIME } from 'utils/constants';
 
 const login = async (user: AuthDto) => {
   const { phone, password } = user;
@@ -15,8 +16,9 @@ const login = async (user: AuthDto) => {
 
     if (password === passwordDeCrypt) {
       const result = {
-        accessToken: jwt.sign(data.toJSON(), config.jwtAccessSecretKey, { expiresIn: '23h' }),
+        accessToken: jwt.sign(data.toJSON(), config.jwtAccessSecretKey, { expiresIn: '1d' }),
         refreshToken: jwt.sign(data.toJSON(), config.jwtRefreshSecretKey),
+        expires: DEFAULT_EXPIRE_TIME,
       };
 
       return result;
@@ -39,6 +41,7 @@ const register = async (user: User) => {
     ...user,
     password: newPassword,
   });
+
   return result;
 };
 
@@ -57,6 +60,7 @@ const refresh = async (data: RefreshDto) => {
     const newToken = {
       accessToken: jwt.sign(res, config.jwtAccessSecretKey, { expiresIn: '23h' }),
       refreshToken: jwt.sign(res, config.jwtRefreshSecretKey),
+      expires: DEFAULT_EXPIRE_TIME,
     };
 
     return newToken;
