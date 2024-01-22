@@ -13,8 +13,19 @@ import { APP_CONSTANTS } from 'utils/constants';
 import logger, { errorLogging, requestLogging } from './logger';
 import config from 'config';
 import { errorMiddleware } from 'middlewares';
+import http from 'http';
+import { Server } from 'socket.io';
 
 const app = express();
+
+const server = http.createServer(app);
+const io = new Server(server);
+
+app.get('/', (req, res) => {
+  io.on('connection', (socket: any) => {
+    console.log('a user connected', socket);
+  });
+});
 
 app.use(cors());
 app.use(bodyParser.json());

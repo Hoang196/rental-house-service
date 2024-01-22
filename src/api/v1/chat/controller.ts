@@ -3,8 +3,13 @@ import RequestWithUser from 'utils/rest/request';
 import fmt from 'utils/formatter';
 import * as service from './service';
 
+import { Server } from 'socket.io';
+
+const io = new Server(3000);
+
 const getChats = async (request: RequestWithUser, response: Response, next: NextFunction) => {
   const data = await service.getChats(request);
+  io.emit('chats', data);
   response.status(200);
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
