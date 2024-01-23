@@ -14,6 +14,7 @@ const authMiddleware = async (request: RequestWithUser, response: Response, next
         if (err) {
           next(new TokenExpiredException());
         }
+        request.user = data;
       });
       next();
     } else {

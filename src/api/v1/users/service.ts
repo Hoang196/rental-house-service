@@ -2,6 +2,17 @@ import { UserNotFound } from 'exceptions';
 import { HouseModel, UserModel } from 'models';
 import { DEFAULT_PAGING } from 'utils/constants';
 
+const getMe = async (user: any) => {
+  const { _id: id } = user;
+
+  if (id) {
+    const data = await UserModel.findOne({ _id: id, active: true });
+    return data;
+  }
+
+  throw new UserNotFound();
+};
+
 const getUser = async (params: any) => {
   const { id } = params;
 
@@ -50,4 +61,4 @@ const deleteUser = async (request: any) => {
   return user;
 };
 
-export { getUser, getUsers, updateUser, deleteUser };
+export { getUser, getUsers, updateUser, deleteUser, getMe };

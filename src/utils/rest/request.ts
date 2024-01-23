@@ -8,4 +8,5 @@ export default interface RequestWithUser extends Request {
   // To use userId and role, please inject the same in a middleware, by decoding an access token.
   startTime?: number;
   searchParams?: URLParams; // TODO: perhaps change to Dto and add validation,
+  user?: any;
 }

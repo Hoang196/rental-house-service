@@ -3,6 +3,12 @@ import RequestWithUser from 'utils/rest/request';
 import fmt from 'utils/formatter';
 import * as service from './service';
 
+const getMe = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+  const data = await service.getMe(request.user);
+  response.status(200);
+  response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
+};
+
 const getUser = async (request: RequestWithUser, response: Response, next: NextFunction) => {
   const data = await service.getUser(request.params);
   response.status(200);
@@ -27,4 +33,4 @@ const deleteUser = async (request: RequestWithUser, response: Response, next: Ne
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-export { getUser, getUsers, updateUser, deleteUser };
+export { getUser, getUsers, updateUser, deleteUser, getMe };
