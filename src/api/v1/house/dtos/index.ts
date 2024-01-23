@@ -23,6 +23,14 @@ export class CreateHouseDto {
 
   @IsDefined()
   @IsString()
+  public district: string;
+
+  @IsDefined()
+  @IsString()
+  public province: string;
+
+  @IsDefined()
+  @IsString()
   public square: number;
 
   @IsDefined()

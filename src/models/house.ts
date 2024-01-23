@@ -10,6 +10,8 @@ export const houseSchema = new Schema(
     description: { type: String, required: true },
     image: { type: String, required: true },
     address: { type: String, required: true, index: true },
+    district: { type: String, required: true, index: true },
+    province: { type: String, required: true, index: true },
     square: { type: Number, required: true, index: true },
     money: { type: Object, required: true, index: true },
     contact: { type: String, required: true },
@@ -29,6 +31,8 @@ export interface House extends Document {
   description: string;
   image: string;
   address: string;
+  district: string;
+  province: string;
   square: number;
   money: Object;
   contact: string;

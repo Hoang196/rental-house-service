@@ -39,10 +39,16 @@ const updatePost = async (request: RequestWithUser, response: Response, next: Ne
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
+const updateStatusPost = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+  const data = await service.updateStatusPost(request);
+  response.status(200);
+  response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
+};
+
 const deletePost = async (request: RequestWithUser, response: Response, next: NextFunction) => {
   const data = await service.deletePost(request);
   response.status(200);
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-export { getPostsByStatus, getPostsByUserId, getPost, getPosts, createPost, updatePost, deletePost };
+export { getPostsByStatus, getPostsByUserId, getPost, getPosts, createPost, updatePost, updateStatusPost, deletePost };

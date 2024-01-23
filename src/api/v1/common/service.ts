@@ -1,4 +1,5 @@
-import { CategoryModel, HouseModel } from 'models';
+import { includes, map } from 'lodash';
+import { CategoryModel, HouseModel, UserModel } from 'models';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getDataSearch = async (request: any) => {
@@ -59,4 +60,37 @@ const getTopFavourite = async (request: any) => {
   };
 };
 
-export { getDataSearch, getTopFavourite };
+const getArrayRandom = () => {
+  let arrayRandom: number[] = [];
+  let index = 12;
+
+  for (let i = 0; i < 8; i++) {
+    const number = Math.floor(Math.random() * 10) + 2;
+
+    if (includes(arrayRandom, number)) {
+      arrayRandom.push(index);
+      index++;
+    } else {
+      arrayRandom.push(number);
+    }
+  }
+
+  return arrayRandom;
+};
+
+const getRandomUser = async (request: any) => {
+  const arrayRandom = getArrayRandom();
+  const promises = map(arrayRandom, (item) => UserModel.find().skip(item).limit(1));
+  const data = await Promise.allSettled(promises);
+  return data;
+};
+
+const getRandomHouse = async (request: any) => {
+  const { type } = request.query;
+  const arrayRandom = getArrayRandom();
+  const promises = map(arrayRandom, (item) => HouseModel.find({ type }).skip(item).limit(1));
+  const data = await Promise.allSettled(promises);
+  return data;
+};
+
+export { getDataSearch, getTopFavourite, getRandomUser, getRandomHouse };

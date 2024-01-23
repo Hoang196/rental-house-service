@@ -1,3 +1,4 @@
+import { map } from 'lodash';
 import { HouseModel } from 'models';
 import { House } from 'models/house';
 import { DEFAULT_PAGING } from 'utils/constants';
@@ -84,10 +85,17 @@ const updatePost = async (request: any) => {
   return data;
 };
 
+const updateStatusPost = async (request: any) => {
+  const { listId, status } = request.body;
+  const promises = map(listId, (id) => HouseModel.findOneAndUpdate({ _id: id }, { status }));
+  const data = await Promise.allSettled(promises);
+  return data;
+};
+
 const deletePost = async (request: any) => {
   const { id } = request.params;
   const data = await HouseModel.findOneAndUpdate({ _id: id }, { active: false });
   return data;
 };
 
-export { getPostsByStatus, getPostsByUserId, getPost, getPosts, createPost, updatePost, deletePost };
+export { getPostsByStatus, getPostsByUserId, getPost, getPosts, createPost, updatePost, updateStatusPost, deletePost };

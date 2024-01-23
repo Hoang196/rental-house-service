@@ -15,4 +15,16 @@ const getTopFavourite = async (request: RequestWithUser, response: Response, nex
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-export { getDataSearch, getTopFavourite };
+const getRandomUser = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+  const data = await service.getRandomUser(request);
+  response.status(200);
+  response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
+};
+
+const getRandomHouse = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+  const data = await service.getRandomHouse(request);
+  response.status(200);
+  response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
+};
+
+export { getDataSearch, getTopFavourite, getRandomUser, getRandomHouse };
