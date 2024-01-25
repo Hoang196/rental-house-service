@@ -1,5 +1,5 @@
-import { includes, map } from 'lodash';
-import { CategoryModel, HouseModel, UserModel } from 'models';
+import { filter, includes, map } from 'lodash';
+import { CategoryModel, HouseModel } from 'models';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getDataSearch = async (request: any) => {
@@ -78,12 +78,7 @@ const getArrayRandom = () => {
   return arrayRandom;
 };
 
-const getRandomUser = async (request: any) => {
-  const arrayRandom = getArrayRandom();
-  const promises = map(arrayRandom, (item) => UserModel.find().skip(item).limit(1));
-  const data = await Promise.all(promises);
-  return data;
-};
+const getRandomUser = async (request: any) => {};
 
 const getRandomHouse = async (request: any) => {
   const { type } = request.query;
@@ -92,7 +87,13 @@ const getRandomHouse = async (request: any) => {
     HouseModel.find({ type }).skip(item).limit(1).populate('user').populate('category')
   );
   const data = await Promise.all(promises);
-  return data;
+  const result = filter(
+    map(data, (item) => {
+      return item?.[0] || {};
+    }),
+    (item2: any) => item2?._id
+  );
+  return result;
 };
 
 export { getDataSearch, getTopFavourite, getRandomUser, getRandomHouse };
