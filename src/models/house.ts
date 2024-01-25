@@ -4,8 +4,8 @@ import { Category } from './category';
 
 export const houseSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, require: true, ref: 'User', index: true },
-    category: { type: Schema.Types.ObjectId, require: true, ref: 'Category', index: true },
+    user: { type: Schema.Types.ObjectId, require: true, ref: 'users', index: true },
+    category: { type: Schema.Types.ObjectId, require: true, ref: 'categories', index: true },
     title: { type: String, require: true },
     description: { type: String, required: true },
     imgs: { type: Array, required: true },

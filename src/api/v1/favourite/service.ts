@@ -19,7 +19,7 @@ const getFavourites = async (request: any) => {
 
   const [count, favourite] = await Promise.all([
     FavouriteModel.count(queryParams),
-    FavouriteModel.find(queryParams).skip(skip).limit(limit),
+    FavouriteModel.find(queryParams).skip(skip).limit(limit).populate('user').populate('house'),
   ]);
 
   return {

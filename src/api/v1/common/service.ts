@@ -32,7 +32,7 @@ const getDataSearch = async (request: any) => {
 
   const [count, listHouses] = await Promise.all([
     HouseModel.count(queryParams),
-    HouseModel.find(queryParams).skip(skip).limit(limit),
+    HouseModel.find(queryParams).skip(skip).limit(limit).populate('user').populate('category'),
   ]);
 
   return {
@@ -50,7 +50,7 @@ const getTopFavourite = async (request: any) => {
 
   const [count, listHouses] = await Promise.all([
     HouseModel.count(),
-    HouseModel.find().sort({ like: -1 }).skip(skip).limit(limit),
+    HouseModel.find().sort({ like: -1 }).skip(skip).limit(limit).populate('user').populate('category'),
   ]);
 
   return {
@@ -81,15 +81,17 @@ const getArrayRandom = () => {
 const getRandomUser = async (request: any) => {
   const arrayRandom = getArrayRandom();
   const promises = map(arrayRandom, (item) => UserModel.find().skip(item).limit(1));
-  const data = await Promise.allSettled(promises);
+  const data = await Promise.all(promises);
   return data;
 };
 
 const getRandomHouse = async (request: any) => {
   const { type } = request.query;
   const arrayRandom = getArrayRandom();
-  const promises = map(arrayRandom, (item) => HouseModel.find({ type }).skip(item).limit(1));
-  const data = await Promise.allSettled(promises);
+  const promises = map(arrayRandom, (item) =>
+    HouseModel.find({ type }).skip(item).limit(1).populate('user').populate('category')
+  );
+  const data = await Promise.all(promises);
   return data;
 };
 

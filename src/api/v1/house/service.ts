@@ -4,18 +4,24 @@ import { House } from 'models/house';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getPostsByStatus = async (query: any) => {
-  const { search, status } = query;
+  const { status, page, page_size } = query;
   const queryParams: any = {
     status,
   };
 
-  if (search) {
-    queryParams.$or = [{ title: { $regex: search, $options: 'i' } }, { content: { $regex: search, $options: 'i' } }];
-  }
+  const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
+  const limit = page_size || DEFAULT_PAGING.page_size;
 
-  const listPost = await HouseModel.find(queryParams);
+  const [count, listPost] = await Promise.all([
+    HouseModel.count(queryParams),
+    HouseModel.find(queryParams).skip(skip).limit(limit).populate('user').populate('category'),
+  ]);
 
-  return listPost;
+  return {
+    total: count,
+    skip,
+    data: listPost,
+  };
 };
 
 const getPostsByUserId = async (request: any) => {
@@ -28,8 +34,7 @@ const getPostsByUserId = async (request: any) => {
 
   const [count, listPost] = await Promise.all([
     HouseModel.count(queryParams),
-    // eslint-disable-next-line prettier/prettier
-    HouseModel.find(queryParams).skip(skip).limit(limit).sort({"updatedAt": -1}),
+    HouseModel.find(queryParams).skip(skip).limit(limit).populate('user').populate('category'),
   ]);
 
   return {
@@ -62,7 +67,7 @@ const getPosts = async (request: any) => {
 
   const [count, listPost] = await Promise.all([
     HouseModel.count(queryParams),
-    HouseModel.find(queryParams).skip(skip).limit(limit),
+    HouseModel.find(queryParams).skip(skip).limit(limit).populate('user').populate('category'),
   ]);
 
   return {

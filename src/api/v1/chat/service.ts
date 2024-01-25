@@ -18,7 +18,7 @@ const getChats = async (request: any) => {
 
   const [count, chat] = await Promise.all([
     ChatModel.count(queryParams),
-    ChatModel.find(queryParams).skip(skip).limit(limit),
+    ChatModel.find(queryParams).skip(skip).limit(limit).populate('userSend').populate('userReceive'),
   ]);
 
   return {
