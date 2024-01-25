@@ -1,10 +1,6 @@
-import { IsDefined, IsString, IsBoolean, IsOptional } from 'class-validator';
+import { IsDefined, IsString, IsBoolean, IsOptional, IsNumber, IsArray } from 'class-validator';
 
 export class CreateHouseDto {
-  @IsDefined()
-  @IsString()
-  public user: string;
-
   @IsDefined()
   @IsString()
   public category: string;
@@ -12,6 +8,10 @@ export class CreateHouseDto {
   @IsDefined()
   @IsString()
   public title: string;
+
+  @IsDefined()
+  @IsArray()
+  public imgs: string;
 
   @IsDefined()
   @IsString()
@@ -22,20 +22,20 @@ export class CreateHouseDto {
   public address: string;
 
   @IsDefined()
-  @IsString()
-  public district: string;
+  @IsNumber()
+  public district: number;
 
   @IsDefined()
-  @IsString()
-  public province: string;
+  @IsNumber()
+  public province: number;
 
   @IsDefined()
-  @IsString()
+  @IsNumber()
   public square: number;
 
   @IsDefined()
-  @IsString()
-  public money: Object;
+  @IsNumber()
+  public money: number;
 
   @IsDefined()
   @IsString()

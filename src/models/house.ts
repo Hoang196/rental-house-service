@@ -8,12 +8,12 @@ export const houseSchema = new Schema(
     category: { type: Schema.Types.ObjectId, require: true, ref: 'Category', index: true },
     title: { type: String, require: true },
     description: { type: String, required: true },
-    image: { type: String, required: true },
+    imgs: { type: Array, required: true },
     address: { type: String, required: true, index: true },
-    district: { type: String, required: true, index: true },
-    province: { type: String, required: true, index: true },
+    district: { type: Number, required: true, index: true },
+    province: { type: Number, required: true, index: true },
     square: { type: Number, required: true, index: true },
-    money: { type: Object, required: true, index: true },
+    money: { type: Number, required: true, index: true },
     contact: { type: String, required: true },
     type: { type: String, required: true, index: true },
     like: { type: Number, default: 0 },
@@ -29,12 +29,12 @@ export interface House extends Document {
   category: Category;
   title: string;
   description: string;
-  image: string;
+  imgs: string[];
   address: string;
-  district: string;
-  province: string;
+  district: number;
+  province: number;
   square: number;
-  money: Object;
+  money: number;
   contact: string;
   type: string;
   like?: number;
