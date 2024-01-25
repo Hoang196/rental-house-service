@@ -28,7 +28,7 @@ const getPosts = async (request: RequestWithUser, response: Response, next: Next
 };
 
 const createPost = async (request: RequestWithUser, response: Response, next: NextFunction) => {
-  const data = await service.createPost(request.body);
+  const data = await service.createPost(request.body, request.user);
   response.status(200);
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };

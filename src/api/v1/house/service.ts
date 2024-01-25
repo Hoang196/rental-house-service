@@ -73,8 +73,11 @@ const getPosts = async (request: any) => {
   };
 };
 
-const createPost = async (post: House) => {
-  const result = await HouseModel.create(post);
+const createPost = async (post: House, user: any) => {
+  const result = await HouseModel.create({
+    ...post,
+    user: user._id,
+  });
   return result;
 };
 
