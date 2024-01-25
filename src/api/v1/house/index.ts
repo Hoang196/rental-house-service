@@ -7,8 +7,8 @@ const router = Router();
 
 router.get('/status', authMiddleware, asyncRouteHandler(controller.getPostsByStatus));
 router.get('/user/:id', authMiddleware, asyncRouteHandler(controller.getPostsByUserId));
-router.get('/postId/:id', authMiddleware, asyncRouteHandler(controller.getPosts));
-router.get('/:id', authMiddleware, asyncRouteHandler(controller.getPosts));
+router.get('/:id', authMiddleware, asyncRouteHandler(controller.getPost));
+router.get('/', authMiddleware, asyncRouteHandler(controller.getPosts));
 router.post(
   '/',
   authMiddleware,
@@ -16,7 +16,7 @@ router.post(
   asyncRouteHandler(controller.createPost)
 );
 router.patch('/:id', authMiddleware, asyncRouteHandler(controller.updatePost));
-router.patch('/status', authMiddleware, asyncRouteHandler(controller.updateStatusPost));
+router.put('/status', authMiddleware, asyncRouteHandler(controller.updateStatusPost));
 router.delete('/:id', authMiddleware, asyncRouteHandler(controller.deletePost));
 
 export default router;
