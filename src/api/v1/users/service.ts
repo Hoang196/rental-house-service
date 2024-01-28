@@ -6,7 +6,7 @@ import { DEFAULT_PAGING } from 'utils/constants';
 const getMe = async (user: any) => {
   const { _id: id } = user || {};
 
-  if (!id) {
+  if (id) {
     const data = await UserModel.findOne({ _id: id, active: true });
 
     const minMaxSquareData = await Promise.allSettled([
@@ -23,7 +23,7 @@ const getMe = async (user: any) => {
     const minMaxMoneyValue = map(minMaxMoneyData, (item: any) => item?.value?.[0]?.money);
 
     return {
-      ...data,
+      user: data,
       minSquare: minMaxSquareValue?.[0],
       maxSquare: minMaxSquareValue?.[1],
       minMoney: minMaxMoneyValue?.[0],

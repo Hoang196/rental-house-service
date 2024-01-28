@@ -4,7 +4,7 @@ import * as controller from './controller';
 
 const router = Router();
 
-router.get('/me', asyncRouteHandler(controller.getMe));
+router.get('/me', authMiddleware, asyncRouteHandler(controller.getMe));
 router.get('/:id', authMiddleware, asyncRouteHandler(controller.getUser));
 router.get('/', authMiddleware, asyncRouteHandler(controller.getUsers));
 router.patch('/:id', authMiddleware, asyncRouteHandler(controller.updateUser));
