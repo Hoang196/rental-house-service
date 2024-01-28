@@ -1,17 +1,23 @@
 import { filter, includes, map } from 'lodash';
-import { CategoryModel, HouseModel } from 'models';
+import { HouseModel } from 'models';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getDataSearch = async (request: any) => {
-  const { money, address, square, category, type, page, page_size } = request.query;
-  const queryParams: any = {};
+  const { money, district, province, square, category, type, page, page_size } = request.query;
+  const queryParams: any = {
+    active: true,
+  };
 
   if (type) {
     queryParams.type = type;
   }
 
-  if (address) {
-    queryParams.address = address;
+  if (district) {
+    queryParams.district = district;
+  }
+
+  if (province) {
+    queryParams.province = province;
   }
 
   if (money) {
@@ -23,8 +29,7 @@ const getDataSearch = async (request: any) => {
   }
 
   if (category) {
-    const getCategory = await CategoryModel.findOne({ name: category });
-    queryParams.category = getCategory.id;
+    queryParams.category = category;
   }
 
   const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
@@ -50,7 +55,7 @@ const getTopFavourite = async (request: any) => {
 
   const [count, listHouses] = await Promise.all([
     HouseModel.count(),
-    HouseModel.find().sort({ like: -1 }).skip(skip).limit(limit).populate('user').populate('category'),
+    HouseModel.find({ active: true }).sort({ like: -1 }).skip(skip).limit(limit).populate('user').populate('category'),
   ]);
 
   return {
@@ -84,7 +89,7 @@ const getRandomHouse = async (request: any) => {
   const { type } = request.query;
   const arrayRandom = getArrayRandom();
   const promises = map(arrayRandom, (item) =>
-    HouseModel.find({ type }).skip(item).limit(1).populate('user').populate('category')
+    HouseModel.find({ type, active: true }).skip(item).limit(1).populate('user').populate('category')
   );
   const data = await Promise.all(promises);
   const result = filter(

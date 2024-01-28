@@ -53,8 +53,10 @@ const getPost = async (request: any) => {
 };
 
 const getPosts = async (request: any) => {
-  const { page, page_size, search } = request.query;
-  const queryParams: any = {};
+  const { page, page_size, search, status } = request.query;
+  const queryParams: any = {
+    status,
+  };
 
   if (search) {
     queryParams.$or = [
