@@ -3,7 +3,8 @@ import { HouseModel } from 'models';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getDataSearch = async (request: any) => {
-  const { money, district, province, square, category, type, page, page_size } = request.query;
+  const { money_from, money_to, district, province, square_from, square_to, category, type, page, page_size } =
+    request.query;
   const queryParams: any = {
     active: true,
   };
@@ -20,12 +21,12 @@ const getDataSearch = async (request: any) => {
     queryParams.province = province;
   }
 
-  if (money) {
-    queryParams.money = { $gte: money.from, $lte: money.to };
+  if (money_to) {
+    queryParams.money = { $gte: money_from, $lte: money_to };
   }
 
-  if (square) {
-    queryParams.square = { $gte: square.from, $lte: square.to };
+  if (square_to) {
+    queryParams.square = { $gte: square_from, $lte: square_to };
   }
 
   if (category) {
