@@ -1,13 +1,34 @@
 import { UserNotFound } from 'exceptions';
+import { map } from 'lodash';
 import { HouseModel, UserModel } from 'models';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getMe = async (user: any) => {
-  const { _id: id } = user;
+  const { _id: id } = user || {};
 
   if (id) {
     const data = await UserModel.findOne({ _id: id, active: true });
-    return data;
+
+    const minMaxSquareData = await Promise.allSettled([
+      HouseModel.find({ active: true }).sort({ square: 1 }).limit(1),
+      HouseModel.find({ active: true }).sort({ square: -1 }).limit(1),
+    ]);
+
+    const minMaxMoneyData = await Promise.allSettled([
+      HouseModel.find({ active: true }).sort({ money: 1 }).limit(1),
+      HouseModel.find({ active: true }).sort({ money: -1 }).limit(1),
+    ]);
+
+    const minMaxSquareValue = map(minMaxSquareData, (item: any) => item?.value?.[0]?.square);
+    const minMaxMoneyValue = map(minMaxMoneyData, (item: any) => item?.value?.[0]?.money);
+
+    return {
+      user: data,
+      minSquare: minMaxSquareValue?.[0],
+      maxSquare: minMaxSquareValue?.[1],
+      minMoney: minMaxMoneyValue?.[0],
+      maxMoney: minMaxMoneyValue?.[1],
+    };
   }
 
   throw new UserNotFound();
