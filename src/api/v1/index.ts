@@ -6,6 +6,7 @@ import userRouter from './users';
 import chatRouter from './chat';
 import commonRouter from './common';
 import uploadRouter from './upload';
+import favouriteRouter from './favourite';
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/users', userRouter);
 router.use('/chat', chatRouter);
 router.use('/common', commonRouter);
 router.use('/upload', uploadRouter);
+router.use('/favourite', favouriteRouter);
 
 export default router;

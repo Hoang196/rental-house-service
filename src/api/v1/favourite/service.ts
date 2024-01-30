@@ -3,16 +3,31 @@ import { FavouriteModel, HouseModel } from 'models';
 import { Favourite } from 'models/favourite';
 import { DEFAULT_PAGING } from 'utils/constants';
 
-const getFavourites = async (request: any) => {
-  const { page, page_size, search } = request.query;
+const getFavouriteByUserId = async (request: any) => {
+  const { page, page_size } = request.query;
   const { id } = request.params;
   const queryParams: any = {
     user: id,
   };
 
-  if (search) {
-    queryParams.$or = [{ name: { $regex: search, $options: 'i' } }];
-  }
+  const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
+  const limit = page_size || DEFAULT_PAGING.page_size;
+
+  const [count, favourite] = await Promise.all([
+    FavouriteModel.count(queryParams),
+    FavouriteModel.find(queryParams).skip(skip).limit(limit).populate('user').populate('house'),
+  ]);
+
+  return {
+    total: count,
+    skip,
+    data: favourite,
+  };
+};
+
+const getFavourites = async (request: any) => {
+  const { page, page_size } = request.query;
+  const queryParams: any = {};
 
   const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
   const limit = page_size || DEFAULT_PAGING.page_size;
@@ -59,4 +74,4 @@ const deleteFavourite = async (request: any) => {
   return favourite;
 };
 
-export { getFavourites, createFavourite, updateFavourite, deleteFavourite };
+export { getFavouriteByUserId, getFavourites, createFavourite, updateFavourite, deleteFavourite };

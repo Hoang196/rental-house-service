@@ -3,6 +3,12 @@ import RequestWithUser from 'utils/rest/request';
 import fmt from 'utils/formatter';
 import * as service from './service';
 
+const getFavouriteByUserId = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+  const data = await service.getFavouriteByUserId(request);
+  response.status(200);
+  response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
+};
+
 const getFavourites = async (request: RequestWithUser, response: Response, next: NextFunction) => {
   const data = await service.getFavourites(request);
   response.status(200);
@@ -27,4 +33,4 @@ const deleteFavourite = async (request: RequestWithUser, response: Response, nex
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-export { getFavourites, createFavourite, updateFavourite, deleteFavourite };
+export { getFavouriteByUserId, getFavourites, createFavourite, updateFavourite, deleteFavourite };
