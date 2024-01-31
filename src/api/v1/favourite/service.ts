@@ -45,9 +45,8 @@ const getFavourites = async (request: any) => {
 };
 
 const createFavourite = async (fa: Favourite) => {
-  const { house, user } = fa;
-  const user_id = user;
-  const checkExisted = await FavouriteModel.findOne({ user_id, house, active: true });
+  const { user, house } = fa;
+  const checkExisted = await FavouriteModel.findOne({ user, house, active: true });
 
   if (checkExisted) {
     throw new UserExisted();
