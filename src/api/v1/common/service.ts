@@ -1,5 +1,5 @@
 import { filter, includes, map } from 'lodash';
-import { HouseModel } from 'models';
+import { FavouriteModel, HouseModel } from 'models';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getDataSearch = async (request: any) => {
@@ -84,7 +84,13 @@ const getArrayRandom = () => {
   return arrayRandom;
 };
 
-const getRandomUser = async (request: any) => {};
+const checkUserLikePost = async (request: any) => {
+  const user = request.user;
+  const { house } = request.query;
+  const checkExisted = await FavouriteModel.findOne({ user: user._id, house, active: true });
+
+  return checkExisted ? true : false;
+};
 
 const getRandomHouse = async (request: any) => {
   const { type } = request.query;
@@ -102,4 +108,4 @@ const getRandomHouse = async (request: any) => {
   return result;
 };
 
-export { getDataSearch, getTopFavourite, getRandomUser, getRandomHouse };
+export { getDataSearch, getTopFavourite, checkUserLikePost, getRandomHouse };

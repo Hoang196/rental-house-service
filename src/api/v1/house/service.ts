@@ -26,8 +26,8 @@ const getPostsByStatus = async (query: any) => {
 
 const getPostsByUserId = async (request: any) => {
   const { id } = request.params;
-  const { page, page_size } = request.query;
-  const queryParams: any = { user: id };
+  const { page, page_size, status } = request.query;
+  const queryParams: any = { user: id, status };
 
   const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
   const limit = page_size || DEFAULT_PAGING.page_size;

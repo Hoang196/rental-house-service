@@ -16,7 +16,7 @@ const login = async (user: AuthDto) => {
 
     if (password === passwordDeCrypt) {
       const result = {
-        accessToken: jwt.sign(data.toJSON(), config.jwtAccessSecretKey, { expiresIn: '1d' }),
+        accessToken: jwt.sign(data.toJSON(), config.jwtAccessSecretKey, { expiresIn: '30d' }),
         refreshToken: jwt.sign(data.toJSON(), config.jwtRefreshSecretKey),
         expires: DEFAULT_EXPIRE_TIME,
       };
@@ -58,7 +58,7 @@ const refresh = async (data: RefreshDto) => {
     }
 
     const newToken = {
-      accessToken: jwt.sign(res, config.jwtAccessSecretKey, { expiresIn: '23h' }),
+      accessToken: jwt.sign(res, config.jwtAccessSecretKey, { expiresIn: '30d' }),
       refreshToken: jwt.sign(res, config.jwtRefreshSecretKey),
       expires: DEFAULT_EXPIRE_TIME,
     };
