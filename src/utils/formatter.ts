@@ -30,6 +30,8 @@ export class Formatter {
     } else if (result || result === 0) {
       numRecords = 1;
       data = result;
+    } else {
+      data = result;
     }
 
     const response: ApiResponse = {

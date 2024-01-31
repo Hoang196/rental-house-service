@@ -89,7 +89,7 @@ const checkUserLikePost = async (request: any) => {
   const { house } = request.query;
   const checkExisted = await FavouriteModel.findOne({ user: user._id, house, active: true });
 
-  return checkExisted ? true : false;
+  return !!checkExisted;
 };
 
 const getRandomHouse = async (request: any) => {
