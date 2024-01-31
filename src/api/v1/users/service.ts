@@ -67,6 +67,13 @@ const getUsers = async (query: any) => {
   };
 };
 
+const updateMe = async (request: any) => {
+  const { _id: id } = request.user;
+  const dataUpdate = request.body;
+  const data = await UserModel.findOneAndUpdate({ _id: id }, { ...dataUpdate });
+  return data;
+};
+
 const updateUser = async (request: any) => {
   const { id } = request.params;
   const dataUpdate = request.body;
@@ -82,4 +89,4 @@ const deleteUser = async (request: any) => {
   return user;
 };
 
-export { getUser, getUsers, updateUser, deleteUser, getMe };
+export { getUser, getUsers, updateUser, deleteUser, getMe, updateMe };

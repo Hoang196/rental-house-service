@@ -21,6 +21,12 @@ const getUsers = async (request: RequestWithUser, response: Response, next: Next
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
+const updateMe = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+  const data = await service.updateMe(request);
+  response.status(200);
+  response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
+};
+
 const updateUser = async (request: RequestWithUser, response: Response, next: NextFunction) => {
   const data = await service.updateUser(request);
   response.status(200);
@@ -33,4 +39,4 @@ const deleteUser = async (request: RequestWithUser, response: Response, next: Ne
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-export { getUser, getUsers, updateUser, deleteUser, getMe };
+export { getUser, getUsers, updateUser, deleteUser, getMe, updateMe };
