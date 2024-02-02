@@ -5,7 +5,7 @@ import { CreateCategoryDto } from './dtos';
 
 const router = Router();
 
-router.get('/', authMiddleware, asyncRouteHandler(controller.getCategories));
+router.get('/', asyncRouteHandler(controller.getCategories));
 router.post(
   '/',
   authMiddleware,
