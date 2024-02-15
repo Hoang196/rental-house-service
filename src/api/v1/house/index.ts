@@ -8,7 +8,7 @@ const router = Router();
 router.get('/status', authMiddleware, asyncRouteHandler(controller.getPostsByStatus));
 router.get('/user', authMiddleware, asyncRouteHandler(controller.getPostsByUserId));
 router.get('/:id', authMiddleware, asyncRouteHandler(controller.getPost));
-router.get('/', authMiddleware, asyncRouteHandler(controller.getPosts));
+router.get('/', asyncRouteHandler(controller.getPosts));
 router.post(
   '/',
   authMiddleware,
