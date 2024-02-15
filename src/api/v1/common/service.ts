@@ -1,5 +1,5 @@
 import { filter, includes, map } from 'lodash';
-import { FavouriteModel, HouseModel } from 'models';
+import { CategoryModel, FavouriteModel, HouseModel, UserModel } from 'models';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getDataSearch = async (request: any) => {
@@ -108,4 +108,40 @@ const getRandomHouse = async (request: any) => {
   return result;
 };
 
-export { getDataSearch, getTopFavourite, checkUserLikePost, getRandomHouse };
+const getStatistics = async (request: any) => {
+  const [
+    userCount,
+    houseRent,
+    housePair,
+    housePending,
+    houseAccept,
+    houseReject,
+    houseTrue,
+    houseFalse,
+    categoryCount,
+  ] = await Promise.all([
+    UserModel.count(),
+    HouseModel.count({ type: 'RENT' }),
+    HouseModel.count({ type: 'PAIR' }),
+    HouseModel.count({ status: 'PENDING' }),
+    HouseModel.count({ status: 'ACCEPT' }),
+    HouseModel.count({ status: 'REJECT' }),
+    HouseModel.count({ active: true }),
+    HouseModel.count({ active: false }),
+    CategoryModel.count(),
+  ]);
+
+  return {
+    userCount: userCount || 0,
+    houseRent: houseRent || 0,
+    housePair: housePair || 0,
+    housePending: housePending || 0,
+    houseAccept: houseAccept || 0,
+    houseReject: houseReject || 0,
+    houseTrue: houseTrue || 0,
+    houseFalse: houseFalse || 0,
+    categoryCount: categoryCount || 0,
+  };
+};
+
+export { getDataSearch, getTopFavourite, checkUserLikePost, getRandomHouse, getStatistics };

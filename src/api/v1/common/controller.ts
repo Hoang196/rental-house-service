@@ -27,4 +27,10 @@ const getRandomHouse = async (request: RequestWithUser, response: Response, next
   response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
 };
 
-export { getDataSearch, getTopFavourite, checkUserLikePost, getRandomHouse };
+const getStatistics = async (request: RequestWithUser, response: Response, next: NextFunction) => {
+  const data = await service.getStatistics(request);
+  response.status(200);
+  response.send(fmt.formatResponse(data, Date.now() - request.startTime, 'OK', 1));
+};
+
+export { getDataSearch, getTopFavourite, checkUserLikePost, getRandomHouse, getStatistics };
