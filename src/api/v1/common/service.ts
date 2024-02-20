@@ -118,6 +118,9 @@ const getStatistics = async (request: any) => {
     houseReject,
     houseTrue,
     houseFalse,
+    houseHN,
+    houseDN,
+    houseHCM,
     categoryCount,
   ] = await Promise.all([
     UserModel.count(),
@@ -128,6 +131,9 @@ const getStatistics = async (request: any) => {
     HouseModel.count({ status: 'REJECT' }),
     HouseModel.count({ active: true }),
     HouseModel.count({ active: false }),
+    HouseModel.count({ province: 1 }),
+    HouseModel.count({ province: 48 }),
+    HouseModel.count({ province: 79 }),
     CategoryModel.count(),
   ]);
 
@@ -140,6 +146,9 @@ const getStatistics = async (request: any) => {
     houseReject: houseReject || 0,
     houseTrue: houseTrue || 0,
     houseFalse: houseFalse || 0,
+    houseHN: houseHN || 0,
+    houseDN: houseDN || 0,
+    houseHCM: houseHCM || 0,
     categoryCount: categoryCount || 0,
   };
 };
