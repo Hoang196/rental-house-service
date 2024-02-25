@@ -101,7 +101,7 @@ const updateStatusPost = async (request: any) => {
 
 const deletePost = async (request: any) => {
   const { id } = request.params;
-  const data = await HouseModel.findOneAndUpdate({ _id: id }, { active: false });
+  const data = await HouseModel.deleteOne({ _id: id });
   return data;
 };
 

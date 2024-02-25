@@ -17,6 +17,6 @@ router.post(
 );
 router.patch('/:id', authMiddleware, asyncRouteHandler(controller.updatePost));
 router.put('/status', authMiddleware, asyncRouteHandler(controller.updateStatusPost));
-router.delete('/:id', authMiddleware, asyncRouteHandler(controller.deletePost));
+router.delete('/:id', asyncRouteHandler(controller.deletePost));
 
 export default router;
