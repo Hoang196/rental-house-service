@@ -60,6 +60,7 @@ const getPosts = async (request: any) => {
     queryParams.$or = [
       { title: { $regex: search, $options: 'i' } },
       { description: { $regex: search, $options: 'i' } },
+      { address: { $regex: search, $options: 'i' } },
     ];
   }
   const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
