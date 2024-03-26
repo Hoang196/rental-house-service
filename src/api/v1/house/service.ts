@@ -72,7 +72,8 @@ const getPosts = async (request: any) => {
 
   const [count, listPost] = await Promise.all([
     HouseModel.count(queryParams),
-    HouseModel.find(queryParams).skip(skip).limit(limit).populate('user').populate('category'),
+    // eslint-disable-next-line prettier/prettier
+    HouseModel.find(queryParams).skip(skip).limit(limit).populate('user').populate('category').sort({"updatedAt": -1}),
   ]);
 
   return {
