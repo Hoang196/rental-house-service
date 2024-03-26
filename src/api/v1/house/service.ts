@@ -1,5 +1,5 @@
 import { map } from 'lodash';
-import { HouseModel } from 'models';
+import { FavouriteModel, HouseModel } from 'models';
 import { House } from 'models/house';
 import { DEFAULT_PAGING } from 'utils/constants';
 
@@ -101,6 +101,8 @@ const updateStatusPost = async (request: any) => {
   const { listId, status } = request.body;
   const promises = map(listId, (id) => HouseModel.findOneAndUpdate({ _id: id }, { status }));
   const data = await Promise.all(promises);
+  const promisesFavourites = map(listId, (id) => FavouriteModel.findOneAndUpdate({ house: id }, { active: false }));
+  await Promise.all(promisesFavourites);
   return data;
 };
 
