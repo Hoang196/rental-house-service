@@ -17,6 +17,7 @@ const getDataSearch = async (request: any) => {
     page_size,
   } = request.query;
   const queryParams: any = {
+    status: 'ACCEPT',
     active: true,
   };
 
@@ -75,7 +76,12 @@ const getTopFavourite = async (request: any) => {
 
   const [count, listHouses] = await Promise.all([
     HouseModel.count(),
-    HouseModel.find({ active: true }).sort({ like: -1 }).skip(skip).limit(limit).populate('user').populate('category'),
+    HouseModel.find({ status: 'ACCEPT', active: true })
+      .sort({ like: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate('user')
+      .populate('category'),
   ]);
 
   return {
@@ -115,7 +121,7 @@ const getRandomHouse = async (request: any) => {
   const { type } = request.query;
   const arrayRandom = getArrayRandom();
   const promises = map(arrayRandom, (item) =>
-    HouseModel.find({ type, active: true }).skip(item).limit(1).populate('user').populate('category')
+    HouseModel.find({ type, status: 'ACCEPT', active: true }).skip(item).limit(1).populate('user').populate('category')
   );
   const data = await Promise.all(promises);
   const result = filter(

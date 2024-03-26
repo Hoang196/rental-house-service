@@ -8,6 +8,7 @@ const getFavouriteByUserId = async (request: any) => {
   const { _id } = request.user;
   const queryParams: any = {
     user: _id,
+    active: true,
   };
 
   const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
@@ -27,7 +28,9 @@ const getFavouriteByUserId = async (request: any) => {
 
 const getFavourites = async (request: any) => {
   const { page, page_size } = request.query;
-  const queryParams: any = {};
+  const queryParams: any = {
+    active: true,
+  };
 
   const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
   const limit = page_size || DEFAULT_PAGING.page_size;
