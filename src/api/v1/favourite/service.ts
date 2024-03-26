@@ -69,13 +69,12 @@ const updateFavourite = async (request: any) => {
 };
 
 const deleteFavourite = async (request: any) => {
-  const { active } = request.body;
   const user = request.user;
   const { id } = request.params;
   const favouriteDetail = await FavouriteModel.findOne({ user: user._id, house: id, active: true });
   const houseDetail = await HouseModel.findOne({ _id: id });
   await HouseModel.findOneAndUpdate({ _id: id }, { like: houseDetail.like - 1 });
-  const favourite = await FavouriteModel.findOneAndUpdate({ _id: favouriteDetail?._id }, { active: active });
+  const favourite = await FavouriteModel.deleteOne({ _id: favouriteDetail?._id });
   return favourite;
 };
 
