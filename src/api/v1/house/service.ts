@@ -54,7 +54,10 @@ const getPost = async (request: any) => {
 
 const getPosts = async (request: any) => {
   const { page, page_size, search } = request.query;
-  const queryParams: any = {};
+  const queryParams: any = {
+    status: 'ACCEPT',
+    active: true,
+  };
 
   if (search) {
     queryParams.$or = [
@@ -63,6 +66,7 @@ const getPosts = async (request: any) => {
       { address: { $regex: search, $options: 'i' } },
     ];
   }
+
   const skip = (page - 1) * DEFAULT_PAGING.page_size || 0;
   const limit = page_size || DEFAULT_PAGING.page_size;
 
@@ -96,7 +100,7 @@ const updatePost = async (request: any) => {
 const updateStatusPost = async (request: any) => {
   const { listId, status } = request.body;
   const promises = map(listId, (id) => HouseModel.findOneAndUpdate({ _id: id }, { status }));
-  const data = await Promise.allSettled(promises);
+  const data = await Promise.all(promises);
   return data;
 };
 
