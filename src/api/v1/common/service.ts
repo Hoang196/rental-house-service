@@ -3,11 +3,30 @@ import { CategoryModel, FavouriteModel, HouseModel, UserModel } from 'models';
 import { DEFAULT_PAGING } from 'utils/constants';
 
 const getDataSearch = async (request: any) => {
-  const { money_from, money_to, district, province, square_from, square_to, category, type, page, page_size } =
-    request.query;
+  const {
+    key_search,
+    money_from,
+    money_to,
+    district,
+    province,
+    square_from,
+    square_to,
+    category,
+    type,
+    page,
+    page_size,
+  } = request.query;
   const queryParams: any = {
     active: true,
   };
+
+  if (key_search) {
+    queryParams.$or = [
+      { title: { $regex: key_search, $options: 'i' } },
+      { description: { $regex: key_search, $options: 'i' } },
+      { address: { $regex: key_search, $options: 'i' } },
+    ];
+  }
 
   if (type) {
     queryParams.type = type;
